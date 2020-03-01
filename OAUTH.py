@@ -9,12 +9,14 @@ from json import dump, load
 from urllib.parse import urlencode, urlparse
 
 class OAUTH:
-    def __init__(self):
+    def __init__(self,scope):
         self.client_id = credentials.id
         self.client_secret = credentials.secret
         self.redirect_uri = credentials.redirect
-        self.base64_encoded = base64.b64encode((self.client_id + ':' + self.client_secret).encode('ascii'))
-        self.scope = 'user-read-currently-playing'
+        self.base64_encoded = base64.b64encode((self.client_id
+                                                + ':'
+                                                + self.client_secret).encode('ascii'))
+        self.scope = scope
 
         if path.exists('token.json'):
             with open('token.json') as jsonfile:

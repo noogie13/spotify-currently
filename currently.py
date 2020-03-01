@@ -2,11 +2,16 @@
 import OAUTH
 import requests
 
-user = OAUTH.OAUTH()
+scopes = 'user-read-playback-state user-read-currently-playing user-modify-playback-state'
 
-currently = requests.get('https://api.spotify.com/v1/me/player/currently-playing', headers={'Authorization':'Bearer ' + user.token['access_token']}).json()
+user = OAUTH.OAUTH(scopes)
+
+isplaying = requests.get('https://api.spotify.com/v1/me/player',
+                         headers={'Authorization':'Bearer ' + user.token['access_token']}).text
+
+currently = requests.get('https://api.spotify.com/v1/me/player/currently-playing',
+                         headers={'Authorization':'Bearer ' + user.token['access_token']}).json()
 
 print(currently['item']['artists'][0]['name'] + ' - ' + currently['item']['album']['name'])
 
 # ['item']['album']['images'][0]['url']
-
